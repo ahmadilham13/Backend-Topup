@@ -70,8 +70,8 @@ builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Telin Web API",
-        Description = ".NET Web API for Telin App",
+        Title = "Top Up Web API",
+        Description = ".NET Web API for Top Up App",
         TermsOfService = new Uri("https://example.com/terms"),
         Contact = new OpenApiContact
         {
