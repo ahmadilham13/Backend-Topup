@@ -1,10 +1,12 @@
+using backend.Accounts.Seeders;
+using backend.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Helpers;
 
 public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
 {
-    // public DbSet<Account> Accounts { get; set; }
+    public DbSet<Account> Accounts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
@@ -20,6 +22,16 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Accounts Module Seeder Start
+        new RoleSeeder(modelBuilder).Seed();
+        new AccountSeeder(modelBuilder).Seed();
+        // Accounts Module Seeder End
+
+        modelBuilder.Entity<Media>()
+            .HasIndex(x => x.AuthorId)
+            .IsUnique(false);
+
+        modelBuilder.ApplyGlobalFilters<ISoftDelete>(x => x.DeletedAt == null);
         
     }
 }
