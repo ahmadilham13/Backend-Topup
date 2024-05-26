@@ -1,0 +1,23 @@
+{
+  "AppSettings": {
+    "Secret": "C%bS/e6pH21|W>AmY#}pTe]Ma5Vcq<3BO7Nvi/Y1]![+K$=(ye?7XR7pu]8ob+X",
+    "RefreshTokenTTL": 2,
+    "MainUrl": "https://example.com",
+    "AssetUrl": "https://example.com",
+    "UseSwagger": true,
+    "UseStrictCors": false,
+    "InternalSecret": "yYZUt24whQITrwowad4lLIOA1INoG3cR"
+  },
+  "ConnectionStrings": {
+    "TopupDatabase": "server=localhost;user=root;password=;database=top_up_db",
+    "Redis": "localhost:6001",
+    "TestDatabase": "server=localhost;user=root;password=;database=top_up_db_test"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
