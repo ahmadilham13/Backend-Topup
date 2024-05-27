@@ -1,6 +1,14 @@
 using System.Globalization;
 using System.Reflection;
+using backend.Accounts.Interfaces.Repositories;
+using backend.Accounts.Interfaces.Shared;
+using backend.Accounts.Repositories;
+using backend.Accounts.Services;
+using backend.BaseModule.Interfaces.Shared;
+using backend.BaseModule.Services;
+using backend.Configs;
 using backend.Helpers;
+using backend.Middlewares;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -131,9 +139,9 @@ builder.Services.AddSwaggerGen(c => {
     c.OperationFilter<HeaderForInternalApiFilter>();
 
     // Set the comments path for the Swagger JSON and UI.
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);
+    // var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    // var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    // c.IncludeXmlComments(xmlPath);
 });
 
 builder.Services.AddStackExchangeRedisCache(options =>
@@ -142,8 +150,15 @@ builder.Services.AddStackExchangeRedisCache(options =>
 });
 
 // Services & Repo Start
+builder.Services.AddScoped<IAccountRepo, AccountRepo>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
+builder.Services.AddScoped<ICacheService, CacheService>();
 // Services & Repo End
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
 var app = builder.Build();
 
@@ -161,5 +176,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseCors("AllowAll");
+
+app.UseMiddleware<JwtMiddleware>();
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<CronMiddleware>();
 
 app.Run();
