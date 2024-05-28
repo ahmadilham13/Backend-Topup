@@ -24,4 +24,12 @@ public class AuthController(
 
         return Ok(new { message = "success", data = response });
     }
+
+    [HttpPost("check-email")]
+    [Produces("application/json")]
+    public async Task<IActionResult> CheckEmail(CheckEmailRequest model)
+    {
+        await _accountService.CheckEmailAvailability(model);
+        return Ok(new { message = "Available" });
+    }
 }

@@ -116,6 +116,25 @@ public class AccountService : IAccountService
         return response;
     }
 
+    public async Task RevokeToken(string token, string ipAddress)
+    {
+        (RefreshToken refreshToken, Account account) = await getRefreshToken(token);
+
+        // revoke token and save
+        refreshToken.Revoked = DateTime.UtcNow;
+        refreshToken.RevokedByIp = ipAddress;
+
+        await _accountRepo.UpdateAccount(account);
+    }
+
+    public async Task CheckEmailAvailability(CheckEmailRequest model)
+    {
+        if (await _accountRepo.CheckEmailExist(model.Email))
+        {
+            throw new AppException(_localizer["email_{0}_already_registered", model.Email].Value, "email_already_registered");
+        }
+    }
+
     // private method
     private async Task<bool> checkCaptcha(string token)
     {
@@ -162,6 +181,13 @@ public class AccountService : IAccountService
         account.RefreshTokens.RemoveAll(x =>
             !x.IsActive &&
             x.Created.AddDays(_appSettings.RefreshTokenTTL) <= DateTime.UtcNow);
+    }
+
+    private async Task<(RefreshToken, Account)> getRefreshToken(string token)
+    {
+        var refreshToken = await _accountRepo.GetRefreshToken(token, _account.Id) ?? throw new AppException(_localizer["invalid_token"], "invalid_token");
+        if (!refreshToken.IsActive) throw new AppException(_localizer["invalid_token"], "invalid_token");
+        return (refreshToken, _account);
     }
 
     private string randomTokenString()

@@ -21,6 +21,16 @@ public class AccountRepo(
         return await query.FirstOrDefaultAsync(x => x.UserName == username);
     }
 
+    public async Task<bool> CheckEmailExist(string email)
+    {
+        return await _context.Accounts.AnyAsync(x => x.Email == email);
+    }
+
+    public async Task<RefreshToken> GetRefreshToken(string token, Guid accountId)
+    {
+        return await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token == token && x.Account.Id == accountId);
+    }
+
     public async Task UpdateAccount(Account account)
     {
         _context.Accounts.Update(account);
