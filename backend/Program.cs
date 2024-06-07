@@ -9,6 +9,10 @@ using backend.BaseModule.Services;
 using backend.Configs;
 using backend.Helpers;
 using backend.Middlewares;
+using backend.Products.Interfaces.Repositories;
+using backend.Products.Interfaces.Shared;
+using backend.Products.Repositories;
+using backend.Products.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -152,8 +156,10 @@ builder.Services.AddStackExchangeRedisCache(options =>
 // Services & Repo Start
 builder.Services.AddScoped<IAccountRepo, AccountRepo>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<ICacheService, CacheService>();
+builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 // Services & Repo End
 
 builder.Services.AddHttpContextAccessor();

@@ -10,6 +10,7 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<NavigationMenu> NavigationMenus { get; set; }
     public DbSet<RolePermission> RolePermissions { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
@@ -31,6 +32,10 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
         // Accounts Module Seeder End
 
         modelBuilder.Entity<Media>()
+            .HasIndex(x => x.AuthorId)
+            .IsUnique(false);
+
+        modelBuilder.Entity<Category>()
             .HasIndex(x => x.AuthorId)
             .IsUnique(false);
 
