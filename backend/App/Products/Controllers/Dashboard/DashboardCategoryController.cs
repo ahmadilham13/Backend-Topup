@@ -23,4 +23,44 @@ public class DashboardCategoryController(
         PaginatedResponse<CategoryResponse> categories = await _categoryService.GetPaginatedCategory(filter);
         return Ok(categories);
     }
+
+    [HttpGet("{id}")]
+    [Produces("application/json")]
+    public async Task<ActionResult<CategoryResponse>> GetCategoryById(Guid id)
+    {
+        CategoryResponse category = await _categoryService.GetCategoryById(id);
+        return Ok(new { message = "success", data = category });
+    }
+
+    [HttpGet("select-data")]
+    [Produces("application/json")]
+    public async Task<ActionResult<List<SelectDataResponse>>> GetListCategory([FromQuery] ListFilter filter)
+    {
+        List<SelectDataResponse> category = await _categoryService.GetListCategory(filter);
+        return Ok(new { message = "success", data = category });
+    }
+
+    [HttpPost]
+    [Produces("application/json")]
+    public async Task<ActionResult<CategoryResponse>> CreateCategory(CreateCategoryRequest model)
+    {
+        CategoryResponse category = await _categoryService.CreateCategory(model, ipAddress());
+        return Ok(new { message = "success", data = category });
+    }
+
+    [HttpPut("{id}")]
+    [Produces("application/json")]
+    public async Task<ActionResult<CategoryResponse>> UpdateCategory(Guid id, UpdateCategoryRequest model)
+    {
+        CategoryResponse category = await _categoryService.UpdateCategory(id, model, ipAddress());
+        return Ok(new { message = "success", data = category });
+    }
+
+    [HttpDelete("{id}")]
+    [Produces("application/json")]
+    public async Task<ActionResult<CategoryResponse>> DeleteCategory(Guid id)
+    {
+        await _categoryService.DeleteCategory(id, ipAddress());
+        return Ok(new { message = "success" });
+    }
 }
