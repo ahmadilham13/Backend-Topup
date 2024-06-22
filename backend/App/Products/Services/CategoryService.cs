@@ -44,7 +44,7 @@ public class CategoryService : ICategoryService
 
         (List<Category> result, int count, int totalPages) = await _categoryRepo.GetPaginatedCategories(filter, pageIndex, pageSize);
 
-        return mappingBrandPaginatedResponse(result, pageIndex, totalPages, count);
+        return mappingCategoryPaginatedResponse(result, pageIndex, totalPages, count);
     }
 
     public async Task<CategoryResponse> GetCategoryById(Guid id)
@@ -97,7 +97,7 @@ public class CategoryService : ICategoryService
         await _categoryRepo.UpdateCategory(category);
     }
 
-    private PaginatedResponse<CategoryResponse> mappingBrandPaginatedResponse(IEnumerable<Category> categories, int page, int totalPage, int totalCount)
+    private PaginatedResponse<CategoryResponse> mappingCategoryPaginatedResponse(IEnumerable<Category> categories, int page, int totalPage, int totalCount)
     {
         return new PaginatedResponse<CategoryResponse>()
         {

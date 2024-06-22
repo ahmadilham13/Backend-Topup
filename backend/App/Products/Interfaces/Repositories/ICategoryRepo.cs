@@ -10,6 +10,7 @@ public interface ICategoryRepo
     Task<List<Category>> GetAllCategories(ListFilter filter);
     Task<Category> GetCategory(Guid id);
     Task<bool> CheckCategoryNameExist(string name);
+    Task<bool> CheckCategoryExist(Guid id);
     Task CreateCategory(Category category);
     Task UpdateCategory(Category category);
 

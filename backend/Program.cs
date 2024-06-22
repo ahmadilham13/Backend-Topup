@@ -157,9 +157,12 @@ builder.Services.AddStackExchangeRedisCache(options =>
 builder.Services.AddScoped<IAccountRepo, AccountRepo>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddScoped<ICacheService, CacheService>();
+
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
+builder.Services.AddScoped<IProductRepo, ProductRepo>();
 // Services & Repo End
 
 builder.Services.AddHttpContextAccessor();

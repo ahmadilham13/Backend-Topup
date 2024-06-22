@@ -5,9 +5,9 @@ using backend.Products.Models.Category;
 
 namespace backend.Products.Profiles;
 
-public class BrandProfile : Profile
+public class CategoryProfile : Profile
 {
-    public BrandProfile()
+    public CategoryProfile()
     {
         CreateMap<CreateCategoryRequest, Category>()
             .ForMember(dest =>

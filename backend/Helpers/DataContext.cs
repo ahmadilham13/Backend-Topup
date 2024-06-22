@@ -11,6 +11,7 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
     public DbSet<NavigationMenu> NavigationMenus { get; set; }
     public DbSet<RolePermission> RolePermissions { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
@@ -37,6 +38,14 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
 
         modelBuilder.Entity<Category>()
             .HasIndex(x => x.AuthorId)
+            .IsUnique(false);
+
+        modelBuilder.Entity<Product>()
+            .HasIndex(x => x.AuthorId)
+            .IsUnique(false);
+
+        modelBuilder.Entity<Product>()
+            .HasIndex(x => x.CategoryId)
             .IsUnique(false);
 
         modelBuilder.ApplyGlobalFilters<ISoftDelete>(x => x.DeletedAt == null);

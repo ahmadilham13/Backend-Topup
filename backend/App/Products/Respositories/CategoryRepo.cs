@@ -87,6 +87,11 @@ public class CategoryRepo(
         return await _context.Categories.AnyAsync(x => x.Name == name);
     }
 
+    public async Task<bool> CheckCategoryExist(Guid id)
+    {
+        return await _context.Categories.AnyAsync(x => x.Id == id);
+    }
+
     public async Task CreateCategory(Category category)
     {
         await _context.Categories.AddAsync(category);
