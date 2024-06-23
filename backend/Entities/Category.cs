@@ -10,4 +10,5 @@ public class Category : BaseEntity
     public Guid AuthorId { get; set; }
     [ForeignKey("AuthorId")]
     public Account Author { get; set; }
+    public virtual List<Product> Products { get; set; }
 }

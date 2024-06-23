@@ -16,6 +16,10 @@ public class CategoryProfile : Profile
 
         CreateMap<Category, CategoryResponse>();
 
+        CreateMap<Category, CategorySingleResponse>()
+            .ForMember(dest =>
+                dest.Products,
+                opt => opt.MapFrom( src => src.Products ));
         CreateMap<Category, SelectDataResponse>()
             .ForMember(dest =>
                 dest.Label,

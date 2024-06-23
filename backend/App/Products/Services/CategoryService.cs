@@ -47,10 +47,10 @@ public class CategoryService : ICategoryService
         return mappingCategoryPaginatedResponse(result, pageIndex, totalPages, count);
     }
 
-    public async Task<CategoryResponse> GetCategoryById(Guid id)
+    public async Task<CategorySingleResponse> GetCategoryById(Guid id)
     {
         Category category = await getCategory(id);
-        return _mapper.Map<CategoryResponse>(category);
+        return _mapper.Map<CategorySingleResponse>(category);
     }
 
     public async Task<CategoryResponse> CreateCategory(CreateCategoryRequest model, string ipAddress)

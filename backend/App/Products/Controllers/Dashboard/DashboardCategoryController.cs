@@ -26,9 +26,9 @@ public class DashboardCategoryController(
 
     [HttpGet("{id}")]
     [Produces("application/json")]
-    public async Task<ActionResult<CategoryResponse>> GetCategoryById(Guid id)
+    public async Task<ActionResult<CategorySingleResponse>> GetCategoryById(Guid id)
     {
-        CategoryResponse category = await _categoryService.GetCategoryById(id);
+        CategorySingleResponse category = await _categoryService.GetCategoryById(id);
         return Ok(new { message = "success", data = category });
     }
 

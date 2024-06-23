@@ -79,7 +79,7 @@ public class CategoryRepo(
 
     public async Task<Category> GetCategory(Guid id)
     {
-        return await _context.Categories.FirstOrDefaultAsync(x => x.Id == id);
+        return await _context.Categories.Include(x => x.Products).FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<bool> CheckCategoryNameExist(string name)

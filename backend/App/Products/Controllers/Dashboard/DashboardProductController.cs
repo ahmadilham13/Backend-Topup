@@ -26,9 +26,9 @@ public class DashboardProductController(
 
     [HttpGet("{id}")]
     [Produces("application/json")]
-    public async Task<ActionResult<ProductResponse>> GetProductById(Guid id)
+    public async Task<ActionResult<ProductSingleResponse>> GetProductById(Guid id)
     {
-        ProductResponse product = await _productService.GetProductById(id);
+        ProductSingleResponse product = await _productService.GetProductById(id);
         return Ok(new { message = "success", data = product });
     }
 

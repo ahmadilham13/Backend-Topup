@@ -15,7 +15,8 @@ public class ProductProfile : Profile
                 dest.Created,
                 opt => opt.MapFrom( src => DateTime.UtcNow ));
 
-        CreateMap<Product, ProductResponse>()
+        CreateMap<Product, ProductResponse>();
+        CreateMap<Product, ProductSingleResponse>()
             .ForMember(dest =>
                 dest.Category,
                 opt => opt.MapFrom( src => src.Category));

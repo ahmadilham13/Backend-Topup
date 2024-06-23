@@ -44,10 +44,10 @@ public class ProductService : IProductService
         return mappingProductPaginatedResponse(result, pageIndex, totalPages, count);
     }
 
-    public async Task<ProductResponse> GetProductById(Guid id)
+    public async Task<ProductSingleResponse> GetProductById(Guid id)
     {
         Product product = await getProduct(id);
-        return _mapper.Map<ProductResponse>(product);
+        return _mapper.Map<ProductSingleResponse>(product);
     }
 
     public async Task<ProductResponse> CreateProduct(CreateProductRequest model, string ipAddress)

@@ -7,7 +7,7 @@ namespace backend.Products.Interfaces.Shared;
 public interface IProductService
 {
     Task<PaginatedResponse<ProductResponse>> GetPaginatedProduct(ProductFilter filter);
-    Task<ProductResponse> GetProductById(Guid id);
+    Task<ProductSingleResponse> GetProductById(Guid id);
     Task<ProductResponse> CreateProduct(CreateProductRequest model, string ipAddress);
     Task<ProductResponse> UpdateProduct(Guid id, UpdateProductRequest model, string ipAddress);
     Task DeleteProduct(Guid id, string ipAddress);
