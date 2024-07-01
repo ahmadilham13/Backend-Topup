@@ -13,6 +13,10 @@ using backend.Products.Interfaces.Repositories;
 using backend.Products.Interfaces.Shared;
 using backend.Products.Repositories;
 using backend.Products.Services;
+using backend.Vouchers.Interfaces.Repositories;
+using backend.Vouchers.Interfaces.Shared;
+using backend.Vouchers.Repositories;
+using backend.Vouchers.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -158,11 +162,13 @@ builder.Services.AddScoped<IAccountRepo, AccountRepo>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IVoucherService, VoucherService>();
 
 builder.Services.AddScoped<ICacheService, CacheService>();
 
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 builder.Services.AddScoped<IProductRepo, ProductRepo>();
+builder.Services.AddScoped<IVoucherRepo, VoucherRepo>();
 // Services & Repo End
 
 builder.Services.AddHttpContextAccessor();
