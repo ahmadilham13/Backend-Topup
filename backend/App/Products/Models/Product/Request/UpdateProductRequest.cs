@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using backend.Entities;
+using backend.Products.Models.ProductItem;
 
 namespace backend.Products.Models.Product;
 
@@ -20,6 +21,7 @@ public class UpdateProductRequest
         set => _description = replaceEmptyWithNull(value);
     }
     public ProductStatus Status { get; set; }
+    public List<UpdateProductItemRequest> ProductItems { get; set; }
 
     private string replaceEmptyWithNull(string value)
     {

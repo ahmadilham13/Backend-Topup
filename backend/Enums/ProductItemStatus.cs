@@ -8,5 +8,5 @@ namespace backend.Entities;
 public enum ProductItemStatus
 {
     Available,
-    Unavailable
+    UnAvailable
 }

@@ -13,12 +13,12 @@ public class ProductProfile : Profile
         CreateMap<CreateProductRequest, Product>()
             .ForMember(dest =>
                 dest.Created,
-                opt => opt.MapFrom( src => DateTime.UtcNow ));
+                opt => opt.MapFrom( src => DateTime.UtcNow ))
+            .ForMember(dest =>
+                dest.ProductItems,
+                opt => opt.Ignore());
 
         CreateMap<Product, ProductResponse>();
-        CreateMap<Product, ProductSingleResponse>()
-            .ForMember(dest =>
-                dest.Category,
-                opt => opt.MapFrom( src => src.Category));
+        CreateMap<Product, ProductSingleResponse>();
     }
 }

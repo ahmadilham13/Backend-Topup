@@ -1,5 +1,6 @@
 using backend.Entities;
 using backend.Products.Models.Category;
+using backend.Products.Models.ProductItem;
 
 namespace backend.Products.Models.Product;
 
@@ -10,4 +11,5 @@ public class ProductSingleResponse
     public string Description { get; set; }
     public ProductStatus Status { get; set; }
     public CategoryResponse Category { get; set; }
+    public List<ProductItemResponse> ProductItems { get; set; }
 }

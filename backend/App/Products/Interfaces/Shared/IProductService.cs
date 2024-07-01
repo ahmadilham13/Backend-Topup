@@ -8,7 +8,7 @@ public interface IProductService
 {
     Task<PaginatedResponse<ProductResponse>> GetPaginatedProduct(ProductFilter filter);
     Task<ProductSingleResponse> GetProductById(Guid id);
-    Task<ProductResponse> CreateProduct(CreateProductRequest model, string ipAddress);
-    Task<ProductResponse> UpdateProduct(Guid id, UpdateProductRequest model, string ipAddress);
+    Task<ProductSingleResponse> CreateProduct(CreateProductRequest model, string ipAddress);
+    Task<ProductSingleResponse> UpdateProduct(Guid id, UpdateProductRequest model, string ipAddress);
     Task DeleteProduct(Guid id, string ipAddress);
 }

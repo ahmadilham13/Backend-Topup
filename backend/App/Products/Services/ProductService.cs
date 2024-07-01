@@ -50,7 +50,7 @@ public class ProductService : IProductService
         return _mapper.Map<ProductSingleResponse>(product);
     }
 
-    public async Task<ProductResponse> CreateProduct(CreateProductRequest model, string ipAddress)
+    public async Task<ProductSingleResponse> CreateProduct(CreateProductRequest model, string ipAddress)
     {
         // Check if category Name already exists on database
         if (await _productRepo.CheckProductNameExist(model.Name))
@@ -67,10 +67,31 @@ public class ProductService : IProductService
         product.AuthorId = _account.Id;
 
         await _productRepo.CreateProduct(product);
-        return _mapper.Map<ProductResponse>(product);
+
+        if (model.ProductItems != null)
+        {
+            foreach (var item in model.ProductItems)
+            {
+                ProductItem productItem = new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = item.Name,
+                    Provider = item.Provider,
+                    Price = item.Price,
+                    SalePrice = item.SalePrice,
+                    Status = item.Status,
+                    ProductId = product.Id,
+                    Created = DateTime.UtcNow
+                };
+
+                await _productRepo.CreateProductItem(productItem);
+            }
+        }
+
+        return _mapper.Map<ProductSingleResponse>(product);
     }
 
-    public async Task<ProductResponse> UpdateProduct(Guid id, UpdateProductRequest model, string ipAddress)
+    public async Task<ProductSingleResponse> UpdateProduct(Guid id, UpdateProductRequest model, string ipAddress)
     {
         Product product = await getProduct(id);
 
@@ -99,7 +120,46 @@ public class ProductService : IProductService
 
         await _productRepo.UpdateProduct(product);
 
-        return _mapper.Map<ProductResponse>(product);
+        List<ProductItem> productItems = [];
+
+        if (model.ProductItems != null)
+        {
+            foreach (var item in model.ProductItems)
+            {
+                // Check if ProductItem object exists
+                // or create a new one if it doesn't exist
+                ProductItem productItem = await _productRepo.GetProductItem(item.Id ?? Guid.Empty) ?? new ProductItem
+                {
+                    Id = Guid.NewGuid(),
+                    ProductId = product.Id,
+                    Created = DateTime.UtcNow
+                };
+
+                productItem.Name = item.Name;
+                productItem.Provider = item.Provider;
+                productItem.Price = item.Price;
+                productItem.SalePrice = item.SalePrice;
+                productItem.Status = item.Status;
+                productItem.Updated = DateTime.UtcNow;
+
+                if (item.Id == null)
+                {
+                    await _productRepo.CreateProductItem(productItem);
+                }
+                else
+                {
+                    await _productRepo.UpdateProductItem(productItem);
+                }
+
+                productItems.Add(productItem);
+            }
+        }
+
+        await removeProductItem(product.Id, productItems);
+
+        product.ProductItems = productItems;
+
+        return _mapper.Map<ProductSingleResponse>(product);
     }
 
     public async Task DeleteProduct(Guid id, string ipAddress)
@@ -129,5 +189,30 @@ public class ProductService : IProductService
     {
         Product product = await _productRepo.GetProduct(id) ?? throw new KeyNotFoundException(_localizer["product_not_found"]);
         return product;
+    }
+
+    private async Task removeProductItem(Guid productId, List<ProductItem> model)
+    {
+        List<Guid> productItemId = [];
+
+        // Get list Product Item IDs from request
+        if (model != null && model.Count > 0)
+        {
+            productItemId = model.Where( x => x.Id != Guid.Empty ).Select( x => x.Id ).ToList();   
+        }
+        
+        // Get list Product Item with current ID from db that don't exist on list Product Item IDs
+        var removedProductItem = await _productRepo.GetProductItemByProductExcept(productId, productItemId);
+        
+        // Remove Product Item with current ID from db that don't exist on list Product Item IDs
+        if (removedProductItem != null)
+        {
+            foreach (var item in removedProductItem)
+            {
+                item.DeletedAt = DateTime.UtcNow;
+
+                await _productRepo.UpdateProductItem(item);
+            }
+        }
     }
 }

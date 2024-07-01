@@ -34,17 +34,17 @@ public class DashboardProductController(
 
     [HttpPost]
     [Produces("application/json")]
-    public async Task<ActionResult<ProductResponse>> CreateProduct(CreateProductRequest model)
+    public async Task<ActionResult<ProductSingleResponse>> CreateProduct(CreateProductRequest model)
     {
-        ProductResponse product = await _productService.CreateProduct(model, ipAddress());
+        ProductSingleResponse product = await _productService.CreateProduct(model, ipAddress());
         return Ok(new { message = "success", data = product });
     }
 
     [HttpPut("{id}")]
     [Produces("application/json")]
-    public async Task<ActionResult<ProductResponse>> UpdateProduct(Guid id, UpdateProductRequest model)
+    public async Task<ActionResult<ProductSingleResponse>> UpdateProduct(Guid id, UpdateProductRequest model)
     {
-        ProductResponse product = await _productService.UpdateProduct(id, model, ipAddress());
+        ProductSingleResponse product = await _productService.UpdateProduct(id, model, ipAddress());
         return Ok(new { message = "success", data = product });
     }
 

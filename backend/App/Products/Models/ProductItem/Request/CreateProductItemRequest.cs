@@ -1,17 +1,18 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using backend.Entities;
 
-namespace backend.Entities;
+namespace backend.Products.Models.ProductItem;
 
-public class ProductItem : BaseEntity
+public class CreateProductItemRequest
 {
+    [Required]
     public string Name { get; set; }
+    [Required]
     public string Provider { get; set; }
+    [Required]
     public long Price { get; set; }
     #nullable enable
     public long? SalePrice { get; set; }
     #nullable disable
     public ProductItemStatus Status { get; set; }
-    public Guid ProductId { get; set; }
-    [ForeignKey("ProductId")]
-    public Product Product { get; set; }
 }

@@ -38,7 +38,22 @@ public class ProductRepo(
 
     public async Task<Product> GetProduct(Guid id)
     {
-        return await _context.Products.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
+        return await _context.Products.Include(x => x.Category).Include(x => x.ProductItems).FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async Task<ProductItem> GetProductItem(Guid id)
+    {
+        return await _context.ProductItems.FirstOrDefaultAsync( x => x.Id == id );
+    }
+
+    public async Task<List<ProductItem>> GetProductItemByProductExcept(Guid productId, List<Guid> productItemIds)
+    {
+        var query = _context.ProductItems.AsQueryable();
+
+        query = query.Where( x => x.ProductId == productId );
+        query = query.Where( x => productItemIds.All( a => a != x.Id ) );
+        
+        return await query.ToListAsync();
     }
 
     public async Task<bool> CheckProductNameExist(string name)
@@ -55,6 +70,18 @@ public class ProductRepo(
     public async Task UpdateProduct(Product product)
     {
         _context.Products.Update(product);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task CreateProductItem(ProductItem productItem)
+    {
+        await _context.ProductItems.AddAsync(productItem);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateProductItem(ProductItem productItem)
+    {
+        _context.ProductItems.Update(productItem);
         await _context.SaveChangesAsync();
     }
 }
