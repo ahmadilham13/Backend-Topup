@@ -73,6 +73,8 @@ public class ProductService : IProductService
 
         await _productRepo.CreateProduct(product);
 
+        product.Category = await _categorytRepo.GetCategory(model.CategoryId);
+
         if (model.ProductItems != null)
         {
             foreach (var item in model.ProductItems)
@@ -93,7 +95,8 @@ public class ProductService : IProductService
             }
         }
 
-        return _mapper.Map<ProductSingleResponse>(product);
+        Product productResult = await getProduct(product.Id);
+        return _mapper.Map<ProductSingleResponse>(productResult);
     }
 
     public async Task<ProductSingleResponse> UpdateProduct(Guid id, UpdateProductRequest model, string ipAddress)

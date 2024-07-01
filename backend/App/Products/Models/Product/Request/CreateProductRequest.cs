@@ -13,6 +13,8 @@ public class CreateProductRequest
     public ProductStatus Status { get; set; }
     public string Description { get; set; }
     #nullable enable
+    public Guid? ThumbnailId { get; set; }
+    public Guid? Iconid { get; set; }
     public List<CreateProductItemRequest>? ProductItems { get; set; }
     #nullable disable
 }

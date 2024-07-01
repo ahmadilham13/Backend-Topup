@@ -38,7 +38,7 @@ public class ProductRepo(
 
     public async Task<Product> GetProduct(Guid id)
     {
-        return await _context.Products.Include(x => x.Category).Include(x => x.ProductItems).FirstOrDefaultAsync(x => x.Id == id);
+        return await _context.Products.Include(x => x.Category).Include(x => x.ProductItems).Include(x => x.Thumbnail).Include(x => x.Icon).FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<ProductItem> GetProductItem(Guid id)

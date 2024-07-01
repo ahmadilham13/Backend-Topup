@@ -21,6 +21,8 @@ public class UpdateProductRequest
         set => _description = replaceEmptyWithNull(value);
     }
     public ProductStatus Status { get; set; }
+    public Guid? ThumbnailId { get; set; }
+    public Guid? Iconid { get; set; }
     public List<UpdateProductItemRequest> ProductItems { get; set; }
 
     private string replaceEmptyWithNull(string value)
