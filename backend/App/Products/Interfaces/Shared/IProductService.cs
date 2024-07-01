@@ -11,5 +11,6 @@ public interface IProductService
     Task<ProductSingleResponse> CreateProduct(CreateProductRequest model, string ipAddress);
     Task<ProductSingleResponse> UpdateProduct(Guid id, UpdateProductRequest model, string ipAddress);
     Task DeleteProduct(Guid id, string ipAddress);
-    Task<ImageFullUploadResponse> UploadMedia(ImageUploadRequest model);
+    Task<ImageFullUploadResponse> UploadThumbnail(ImageUploadRequest model);
+    Task<ImageFullUploadResponse> UploadIcon(ImageUploadRequest model);
 }

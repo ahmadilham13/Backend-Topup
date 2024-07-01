@@ -178,9 +178,14 @@ public class ProductService : IProductService
         await _productRepo.UpdateProduct(product);
     }
 
-    public async Task<ImageFullUploadResponse> UploadMedia(ImageUploadRequest model)
+    public async Task<ImageFullUploadResponse> UploadThumbnail(ImageUploadRequest model)
     {
         Media uploadImage = await _uploadService.UploadImage(model.image, "products");
+        return _mapper.Map<ImageFullUploadResponse>(uploadImage);
+    }
+    public async Task<ImageFullUploadResponse> UploadIcon(ImageUploadRequest model)
+    {
+        Media uploadImage = await _uploadService.UploadImage(model.image, "product-icons");
         return _mapper.Map<ImageFullUploadResponse>(uploadImage);
     }
 

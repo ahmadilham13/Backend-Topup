@@ -57,12 +57,21 @@ public class DashboardProductController(
         return Ok(new { message = "success" });
     }
 
-    [HttpPost("media")]
+    [HttpPost("thumbnail")]
     [RequestSizeLimit(2542880)]
     [Produces("application/json")]
-        public async Task<ActionResult<ImageFullUploadResponse>> UploadMedia([FromForm] ImageUploadRequest model)
+        public async Task<ActionResult<ImageFullUploadResponse>> UploadThumbnail([FromForm] ImageUploadRequest model)
     {
-        ImageFullUploadResponse media = await _productService.UploadMedia(model);
+        ImageFullUploadResponse media = await _productService.UploadThumbnail(model);
+        return Ok(new { message = "success", data = media });
+    }
+    
+    [HttpPost("icon")]
+    [RequestSizeLimit(2542880)]
+    [Produces("application/json")]
+        public async Task<ActionResult<ImageFullUploadResponse>> UploadIcon([FromForm] ImageUploadRequest model)
+    {
+        ImageFullUploadResponse media = await _productService.UploadIcon(model);
         return Ok(new { message = "success", data = media });
     }
 }
