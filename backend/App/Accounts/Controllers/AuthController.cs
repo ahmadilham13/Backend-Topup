@@ -32,4 +32,12 @@ public class AuthController(
         await _accountService.CheckEmailAvailability(model);
         return Ok(new { message = "Available" });
     }
+
+    [HttpPost("register")]
+    [Produces("application/json")]
+    public async Task<IActionResult> Register(RegisterRequest model)
+    {
+        await _accountService.Register(model, ipAddress());
+        return Ok(new { message = "registered" });
+    }
 }

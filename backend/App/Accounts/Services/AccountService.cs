@@ -135,6 +135,31 @@ public class AccountService : IAccountService
         }
     }
 
+    public async Task Register(RegisterRequest model, string ipAddress)
+    {
+        if (await _accountRepo.CheckEmailExist(model.Email))
+        {
+            throw new AppException(_localizer["email_{0}_already_registered", model.Email].Value, "email_already_registered");
+        }
+
+        if (await _accountRepo.CheckUsernameExist(model.UserName))
+        {
+            throw new AppException(_localizer["username_{0}_already_registered", model.UserName].Value, "username_already_registered");
+        }
+
+        // map model to new account object
+        Account account = _mapper.Map<Account>(model);
+
+        account.RoleId = new Guid("3658f128-c3ac-4bc2-82d5-7b282183721d");
+        account.Created = DateTime.UtcNow;
+
+        // hash password
+        account.PasswordHash = BC.HashPassword(model.Password);
+
+        // save account
+        await _accountRepo.CreateAccount(account);
+    }
+
     // private method
     private async Task<bool> checkCaptcha(string token)
     {

@@ -9,6 +9,7 @@ public class Account : BaseEntity
     public string FullName { get; set; }
     public AccountStatus Status { get; set; }
     public string Email { get; set; }
+    public string WhatsappNumber { get; set; }
     public string PasswordHash { get; set; }
     #nullable enable
     public string? VerificationToken { get; set; }
