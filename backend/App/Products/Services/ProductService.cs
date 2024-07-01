@@ -94,6 +94,7 @@ public class ProductService : IProductService
             product.CategoryId = (Guid) model.CategoryId;
         }
 
+        product.Status = model.Status;
         product.Updated = DateTime.UtcNow;
 
         await _productRepo.UpdateProduct(product);

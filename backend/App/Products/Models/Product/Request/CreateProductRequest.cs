@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using backend.Entities;
 
 namespace backend.Products.Models.Product;
 
@@ -8,5 +9,6 @@ public class CreateProductRequest
     public string Name { get; set; }
     [Required]
     public Guid CategoryId { get; set; }
+    public ProductStatus Status { get; set; }
     public string Description { get; set; }
 }

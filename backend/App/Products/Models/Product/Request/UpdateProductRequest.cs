@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using backend.Entities;
 
 namespace backend.Products.Models.Product;
 
@@ -18,6 +19,8 @@ public class UpdateProductRequest
         get => _description;
         set => _description = replaceEmptyWithNull(value);
     }
+    public ProductStatus Status { get; set; }
+
     private string replaceEmptyWithNull(string value)
     {
         // replace empty string with null to make field optional
