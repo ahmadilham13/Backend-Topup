@@ -4,7 +4,9 @@ using backend.Accounts.Interfaces.Repositories;
 using backend.Accounts.Interfaces.Shared;
 using backend.Accounts.Repositories;
 using backend.Accounts.Services;
+using backend.BaseModule.Interfaces.Repositories;
 using backend.BaseModule.Interfaces.Shared;
+using backend.BaseModule.Repositories;
 using backend.BaseModule.Services;
 using backend.Configs;
 using backend.Helpers;
@@ -163,12 +165,14 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
+builder.Services.AddScoped<IUploadService, UploadService>();
 
 builder.Services.AddScoped<ICacheService, CacheService>();
 
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 builder.Services.AddScoped<IProductRepo, ProductRepo>();
 builder.Services.AddScoped<IVoucherRepo, VoucherRepo>();
+builder.Services.AddScoped<IMediaRepo, MediaRepo>();
 // Services & Repo End
 
 builder.Services.AddHttpContextAccessor();

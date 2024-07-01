@@ -1,3 +1,4 @@
+using backend.BaseModule.Models.Media;
 using backend.BaseModule.Controllers;
 using backend.BaseModule.Models.Base;
 using backend.Helpers;
@@ -54,5 +55,14 @@ public class DashboardProductController(
     {
         await _productService.DeleteProduct(id, ipAddress());
         return Ok(new { message = "success" });
+    }
+
+    [HttpPost("media")]
+    [RequestSizeLimit(2542880)]
+    [Produces("application/json")]
+        public async Task<ActionResult<ImageFullUploadResponse>> UploadMedia([FromForm] ImageUploadRequest model)
+    {
+        ImageFullUploadResponse media = await _productService.UploadMedia(model);
+        return Ok(new { message = "success", data = media });
     }
 }

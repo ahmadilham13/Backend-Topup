@@ -1,5 +1,7 @@
 using AutoMapper;
+using backend.BaseModule.Interfaces.Shared;
 using backend.BaseModule.Models.Base;
+using backend.BaseModule.Models.Media;
 using backend.Entities;
 using backend.Helpers;
 using backend.Products.Interfaces.Repositories;
@@ -15,6 +17,7 @@ public class ProductService : IProductService
     private readonly IMapper _mapper;
     private readonly IProductRepo _productRepo;
     private readonly ICategoryRepo _categorytRepo;
+    private readonly IUploadService _uploadService;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IStringLocalizer<ProductService> _localizer;
 
@@ -22,6 +25,7 @@ public class ProductService : IProductService
         IMapper mapper,
         IProductRepo productRepo,
         ICategoryRepo categoryRepo,
+        IUploadService uploadService,
         IHttpContextAccessor httpContextAccessor,
         IStringLocalizer<ProductService> localizer
     )
@@ -29,6 +33,7 @@ public class ProductService : IProductService
          _mapper = mapper;
         _productRepo = productRepo;
         _categorytRepo = categoryRepo;
+        _uploadService = uploadService;
         _httpContextAccessor = httpContextAccessor;
         _localizer = localizer;
         _account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
@@ -171,6 +176,12 @@ public class ProductService : IProductService
         product.DeletedAt = DateTime.UtcNow;
 
         await _productRepo.UpdateProduct(product);
+    }
+
+    public async Task<ImageFullUploadResponse> UploadMedia(ImageUploadRequest model)
+    {
+        Media uploadImage = await _uploadService.UploadImage(model.image, "products");
+        return _mapper.Map<ImageFullUploadResponse>(uploadImage);
     }
 
     private PaginatedResponse<ProductResponse> mappingProductPaginatedResponse(IEnumerable<Product> products, int page, int totalPage, int totalCount)

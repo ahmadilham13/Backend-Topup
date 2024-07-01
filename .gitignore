@@ -496,4 +496,4 @@ $RECYCLE.BIN/
 *.vsix
 
 # Local upload file
-src/wwwroot/uploads/*
+backend/wwwroot/uploads/*

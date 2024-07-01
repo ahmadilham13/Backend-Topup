@@ -14,6 +14,7 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
     public DbSet<Product> Products { get; set; }
     public DbSet<Voucher> Vouchers { get; set; }
     public DbSet<ProductItem> ProductItems { get; set; }
+    public DbSet<Media> Medias { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
