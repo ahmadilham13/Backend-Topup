@@ -14,4 +14,6 @@ public interface IProductRepo
     Task UpdateProduct(Product product);
     Task CreateProductItem(ProductItem productItem);
     Task UpdateProductItem(ProductItem productItem);
+
+    Task<(List<Product>, int, int)> GetPaginatedProductsByCategory(Guid id, ProductFilter filter, int pageIndex, int pageSize);
 }

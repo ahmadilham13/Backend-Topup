@@ -125,6 +125,8 @@ public class ProductService : IProductService
 
         product.SubName = model.SubName;
         product.Status = model.Status;
+        product.ThumbnailId = model.ThumbnailId;
+        product.IconId = model.Iconid;
         product.Updated = DateTime.UtcNow;
 
         await _productRepo.UpdateProduct(product);
@@ -168,7 +170,9 @@ public class ProductService : IProductService
 
         product.ProductItems = productItems;
 
-        return _mapper.Map<ProductSingleResponse>(product);
+        Product result = await getProduct(product.Id);
+
+        return _mapper.Map<ProductSingleResponse>(result);
     }
 
     public async Task DeleteProduct(Guid id, string ipAddress)

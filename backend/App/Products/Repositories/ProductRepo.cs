@@ -84,4 +84,31 @@ public class ProductRepo(
         _context.ProductItems.Update(productItem);
         await _context.SaveChangesAsync();
     }
+
+
+    public async Task<(List<Product>, int, int)> GetPaginatedProductsByCategory(Guid id, ProductFilter filter, int pageIndex, int pageSize)
+    {
+        var query = _context.Products.AsQueryable();
+
+        query = query.Where(x => x.CategoryId == id);
+        query = query.Include(x => x.Thumbnail);
+        query = query.Include(x => x.Icon);
+
+        if (filter.query != null)
+        {
+            query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.query}%"));
+        }
+
+        query = filter.order switch
+        {
+            ProductOrder.Name => query.OrderBy(x => x.Name),
+            _ => query.OrderByDescending(x => x.Created),
+        };
+
+        var result = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+        var count = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+        return (result, count, totalPages);
+    }
 }

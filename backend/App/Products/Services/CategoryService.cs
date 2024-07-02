@@ -5,6 +5,7 @@ using backend.Helpers;
 using backend.Products.Interfaces.Repositories;
 using backend.Products.Interfaces.Shared;
 using backend.Products.Models.Category;
+using backend.Products.Models.Product;
 using Microsoft.Extensions.Localization;
 
 namespace backend.Products.Services;
@@ -14,18 +15,21 @@ public class CategoryService : ICategoryService
     private Account _account;
     private readonly IMapper _mapper;
     private readonly ICategoryRepo _categoryRepo;
+    private readonly IProductRepo _productRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IStringLocalizer<CategoryService> _localizer;
 
     public CategoryService(
         IMapper mapper,
         ICategoryRepo categoryRepo,
+        IProductRepo productRepo,
         IHttpContextAccessor httpContextAccessor,
         IStringLocalizer<CategoryService> localizer
     )
     {
         _mapper = mapper;
         _categoryRepo = categoryRepo;
+        _productRepo = productRepo;
         _httpContextAccessor = httpContextAccessor;
         _localizer = localizer;
         _account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
@@ -97,12 +101,45 @@ public class CategoryService : ICategoryService
         await _categoryRepo.UpdateCategory(category);
     }
 
+    public async Task<List<CategoryResponse>> GetAllCategory()
+    {
+        List<Category> categories = await _categoryRepo.GetAllCategories();
+        return _mapper.Map<List<CategoryResponse>>(categories);
+    }
+
+    public async Task<CategoryProductPaginateResponse> GetFullCategory(Guid id, ProductFilter filter)
+    {
+        Category categories = await _categoryRepo.GetFullCategory(id);
+        CategoryProductPaginateResponse response = _mapper.Map<CategoryProductPaginateResponse>(categories);
+
+        int pageSize = SiteHelper.ValidatePageSize(filter.pageSize);
+        int pageIndex = filter.page > 1 ? filter.page : 1;
+
+        (List<Product> result, int count, int totalPages) = await _productRepo.GetPaginatedProductsByCategory(id, filter, pageIndex, pageSize);
+
+        response.Products = mappingProductPaginatedResponse(result, pageIndex, totalPages, count);
+        
+        return response;
+    }
+
     private PaginatedResponse<CategoryResponse> mappingCategoryPaginatedResponse(IEnumerable<Category> categories, int page, int totalPage, int totalCount)
     {
         return new PaginatedResponse<CategoryResponse>()
         {
             Message = "success",
             Data = _mapper.Map<IEnumerable<CategoryResponse>>(categories),
+            Page = page,
+            TotalPage = totalPage,
+            TotalCount = totalCount
+        };
+    }
+
+    private PaginatedResponse<CategoryProductResponse> mappingProductPaginatedResponse(IEnumerable<Product> products, int page, int totalPage, int totalCount)
+    {
+        return new PaginatedResponse<CategoryProductResponse>()
+        {
+            Message = "List Products",
+            Data = _mapper.Map<IEnumerable<CategoryProductResponse>>(products),
             Page = page,
             TotalPage = totalPage,
             TotalCount = totalCount

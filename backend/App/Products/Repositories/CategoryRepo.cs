@@ -104,6 +104,16 @@ public class CategoryRepo(
         await _context.SaveChangesAsync();
     }
 
+    public async Task<List<Category>> GetAllCategories()
+    {
+        return await _context.Categories.ToListAsync();
+    }
+
+    public async Task<Category> GetFullCategory(Guid id)
+    {
+        return await _context.Categories.Include(x => x.Products).FirstOrDefaultAsync(x => x.Id == id);
+    }
+
     private async Task<List<Category>> getCategories(List<Guid> ids)
     {
         return await _context.Categories.Where(x => ids.Contains(x.Id)).ToListAsync();

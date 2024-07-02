@@ -14,4 +14,7 @@ public interface ICategoryRepo
     Task CreateCategory(Category category);
     Task UpdateCategory(Category category);
 
+    Task<List<Category>> GetAllCategories();
+    Task<Category> GetFullCategory(Guid id);
+
 }

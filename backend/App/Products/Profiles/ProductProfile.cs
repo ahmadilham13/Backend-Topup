@@ -20,5 +20,6 @@ public class ProductProfile : Profile
 
         CreateMap<Product, ProductResponse>();
         CreateMap<Product, ProductSingleResponse>();
+        CreateMap<Product, CategoryProductResponse>();
     }
 }

@@ -27,5 +27,9 @@ public class CategoryProfile : Profile
             .ForMember(dest =>
                 dest.Value,
                 opt => opt.MapFrom( src => src.Id ));
+        CreateMap<Category, CategoryProductPaginateResponse>()
+            .ForMember(dest =>
+                    dest.Products,
+                    opt => opt.Ignore());
     }
 }
