@@ -6,6 +6,7 @@ namespace backend.Entities;
 public class Product : BaseEntity
 {
     public string Name { get; set; }
+    public string SubName { get; set; }
     public string Description { get; set; }
     public ProductStatus Status { get; set; }
     public Guid CategoryId { get; set; }

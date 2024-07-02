@@ -39,7 +39,7 @@ public class ProductService : IProductService
         _account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
     }
 
-        public async Task<PaginatedResponse<ProductResponse>> GetPaginatedProduct(ProductFilter filter)
+    public async Task<PaginatedResponse<ProductResponse>> GetPaginatedProduct(ProductFilter filter)
     {
         int pageSize = SiteHelper.ValidatePageSize(filter.pageSize);
         int pageIndex = filter.page > 1 ? filter.page : 1;
@@ -123,6 +123,7 @@ public class ProductService : IProductService
             product.CategoryId = (Guid) model.CategoryId;
         }
 
+        product.SubName = model.SubName;
         product.Status = model.Status;
         product.Updated = DateTime.UtcNow;
 

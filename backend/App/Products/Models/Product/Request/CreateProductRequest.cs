@@ -8,6 +8,9 @@ public class CreateProductRequest
 {
     [Required]
     public string Name { get; set; }
+    #nullable enable
+    public string? SubName { get; set; }
+    #nullable disable
     [Required]
     public Guid CategoryId { get; set; }
     public ProductStatus Status { get; set; }
