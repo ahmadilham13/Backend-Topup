@@ -5,7 +5,7 @@ EXPOSE 5039
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 COPY *.sln .
 COPY backend/backend.csproj /backend/backend.csproj
-RUN dotnet restore
+RUN dotnet restore backend/ --interactive
 COPY backend/appsettings.json /backend/appsettings.json
 COPY . .
 # COPY script.sh BisDevSales/script.sh
