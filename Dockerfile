@@ -10,7 +10,7 @@ COPY backend/appsettings.json /backend/appsettings.json
 COPY . .
 # COPY script.sh BisDevSales/script.sh
 
-ENV PATH $PATH:/root/.dotnet/tools
+ENV PATH=${PATH}:/root/.dotnet/tools
 RUN dotnet tool install --global dotnet-ef --version 8.0.3
 
 RUN dotnet build -c Release -o /app/build
