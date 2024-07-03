@@ -324,10 +324,12 @@ public class UploadService : IUploadService
             // Get image encoder based on image extension
             IImageEncoder encoder = getImageEncoder(extension);
 
-            filePath = $"uploads/{imageType}/{newImageName}";
+            filePath = Path.Combine(Directory.GetCurrentDirectory(), newImagePath, newImageName);
+            // filePath = $"uploads/{imageType}/{newImageName}";
 
-            // Save image to temporary path and then upload image to bucket
-            clone.Save(tempImagePath, encoder);
+            clone.Save(filePath, encoder);
+            // // Save image to temporary path and then upload image to bucket
+            // clone.Save(tempImagePath, encoder);
 
             // // Upload image data to bucket
             // uploadBucket(tempImagePath, filePath, getMimeType(tempImagePath)).Wait();
@@ -413,10 +415,12 @@ public class UploadService : IUploadService
         // Get image encoder based on image extension
         IImageEncoder encoder = getImageEncoder(extension);
 
-        filePath = $"uploads/{imageType}/{newImageName}";
+        filePath = Path.Combine(Directory.GetCurrentDirectory(), newImagePath, newImageName);
+        // filePath = $"uploads/{imageType}/{newImageName}";
 
-        // Save image to temporary path and then upload image to bucket
-        clone.Save(tempImagePath, encoder);
+        clone.Save(filePath, encoder);
+        // // Save image to temporary path and then upload image to bucket
+        // clone.Save(tempImagePath, encoder);
 
         // // Upload image data to bucket
         // uploadBucket(tempImagePath, filePath, getMimeType(tempImagePath)).Wait();

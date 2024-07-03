@@ -1,5 +1,6 @@
 using AutoMapper;
 using backend.BaseModule.Models.Base;
+using backend.BaseModule.Models.Media;
 using backend.Entities;
 using backend.Products.Models.Category;
 using backend.Products.Models.Product;
@@ -19,7 +20,25 @@ public class ProductProfile : Profile
                 opt => opt.Ignore());
 
         CreateMap<Product, ProductResponse>();
-        CreateMap<Product, ProductSingleResponse>();
-        CreateMap<Product, CategoryProductResponse>();
+        CreateMap<Product, ProductSingleResponse>()
+            .AfterMap((src, dest) =>
+            {
+                dest.Thumbnail ??= new ImageUploadResponse()
+                {
+                    ImageBig = "template/img/product/product-bg.jpg",
+                    ImageSmall = "template/img/product/product-sm.jpg",
+                    ImageDefault = "template/img/product/product.jpg"
+                };
+            });
+        CreateMap<Product, CategoryProductResponse>()
+            .AfterMap((src, dest) =>
+            {
+                dest.Thumbnail ??= new ImageUploadResponse()
+                {
+                    ImageBig = "template/img/product/product-bg.jpg",
+                    ImageSmall = "template/img/product/product-sm.jpg",
+                    ImageDefault = "template/img/product/product.jpg"
+                };
+            });
     }
 }
