@@ -1,0 +1,9 @@
+version: '1'
+
+services:
+  topup-api:
+    image: ${DOCKER_IMAGES_PARENT}${DOCKER_IMAGES_PROJECT}:${BUILD_NUMBER}
+    ports:
+      - "5039:5039"
+    restart: always
+
