@@ -28,17 +28,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddCors(opt =>
-{
-    opt.AddPolicy(name: "AllowAll", builder =>
-    {
-        builder
-            .SetIsOriginAllowed(origin => true)
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
-    });
-});
+// builder.Services.AddCors(opt =>
+// {
+//     opt.AddPolicy(name: "AllowAll", builder =>
+//     {
+//         builder
+//             .SetIsOriginAllowed(origin => true)
+//             .AllowAnyMethod()
+//             .AllowAnyHeader()
+//             .AllowCredentials();
+//     });
+// });
 
 // Register localization service for supporting multiple language
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -106,7 +106,7 @@ builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("internal-v1", new OpenApiInfo
     {
         Version = "internal-v1",
-        Title = "Telin Internal API",
+        Title = "Topup Internal API",
         Description = ".NET Internal API for Others App",
         TermsOfService = new Uri("https://example.com/terms"),
         Contact = new OpenApiContact
@@ -196,10 +196,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors("AllowAll");
+// app.UseCors("AllowAll");
 
 app.UseMiddleware<JwtMiddleware>();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<CronMiddleware>();
+app.UseMiddleware<CorsMiddleware>();
 
 app.Run();
