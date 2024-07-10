@@ -15,6 +15,7 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
     public DbSet<Voucher> Vouchers { get; set; }
     public DbSet<ProductItem> ProductItems { get; set; }
     public DbSet<Media> Medias { get; set; }
+    public DbSet<Berita> Beritas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
@@ -57,6 +58,10 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
 
         modelBuilder.Entity<ProductItem>()
             .HasIndex(x => x.ProductId)
+            .IsUnique(false);
+
+        modelBuilder.Entity<Berita>()
+            .HasIndex(x => x.AuthorId)
             .IsUnique(false);
 
         modelBuilder.ApplyGlobalFilters<ISoftDelete>(x => x.DeletedAt == null);
