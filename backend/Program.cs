@@ -8,6 +8,9 @@ using backend.BaseModule.Interfaces.Repositories;
 using backend.BaseModule.Interfaces.Shared;
 using backend.BaseModule.Repositories;
 using backend.BaseModule.Services;
+using backend.Beritas.Interfaces.Repositories;
+using backend.Beritas.Repositories;
+using backend.Beritas.Services;
 using backend.Configs;
 using backend.Helpers;
 using backend.Middlewares;
@@ -166,6 +169,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
 builder.Services.AddScoped<IUploadService, UploadService>();
+builder.Services.AddScoped<IBeritaService, BeritaService>();
 
 builder.Services.AddScoped<ICacheService, CacheService>();
 
@@ -173,6 +177,7 @@ builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 builder.Services.AddScoped<IProductRepo, ProductRepo>();
 builder.Services.AddScoped<IVoucherRepo, VoucherRepo>();
 builder.Services.AddScoped<IMediaRepo, MediaRepo>();
+builder.Services.AddScoped<IBeritaRepo, BeritaRepo>();
 // Services & Repo End
 
 builder.Services.AddHttpContextAccessor();
