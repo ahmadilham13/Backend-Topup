@@ -1,5 +1,6 @@
 using backend.BaseModule.Controllers;
 using backend.BaseModule.Models.Base;
+using backend.BaseModule.Models.Media;
 using backend.Beritas.Models.Request;
 using backend.Beritas.Models.Response;
 using backend.Helpers;
@@ -23,5 +24,14 @@ public class DashboardBeritaController(
     {
         PaginatedResponse<BeritaResponse> beritas = await _beritaService.GetPaginatedBerita(filter);
         return Ok(beritas);
+    }
+
+    [HttpPost("path")]
+    [RequestSizeLimit(2542880)]
+    [Produces("application/json")]
+        public async Task<ActionResult<ImageFullUploadResponse>> UploadPath([FromForm] ImageUploadRequest model)
+    {
+        ImageFullUploadResponse media = await _beritaService.UploadPath(model);
+        return Ok(new { message = "success", data = media });
     }
 }
